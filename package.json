@@ -1,0 +1,11 @@
+{
+  "name": "wasm-load-module-example",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "start": "serve src"
+  },
+  "devDependencies": {
+    "serve": "^11.3.0"
+  }
+}
