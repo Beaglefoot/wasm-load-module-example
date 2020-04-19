@@ -18,9 +18,9 @@ async function initFibC() {
 
 
 function getDuration(func) {
-  const startJs = Date.now();
+  const start = Date.now();
   func(ITERATIONS);
-  return Date.now() - startJs + 'ms';
+  return Date.now() - start + 'ms';
 }
 
 
