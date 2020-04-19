@@ -1,17 +1,36 @@
+const ITERATIONS = 42;
+let fibC;
+
 function fibJs(index) {
-  if (index === 0) throw new Error('Sequence starts from 1');
+  if (index <= 0) throw new Error('Sequence starts from 1');
   if (index <= 2) return 1;
 
   return fibJs(index - 2) + fibJs(index - 1);
 };
 
-function getJsDuration() {
-  const startJs = Date.now();
-  fibJs(42);
-  return Date.now() - startJs;
+
+
+async function initFibC() {
+  const obj = await WebAssembly.instantiateStreaming(fetch('fib.wasm'));
+  fibC = obj.instance.exports._fibC;
 }
 
-const resultJsNode = document.getElementById('result-js');
-const resultWasmNode = document.getElementById('result-wasm');
 
-resultJsNode.textContent = getJsDuration();
+
+function getDuration(func) {
+  const startJs = Date.now();
+  func(ITERATIONS);
+  return Date.now() - startJs + 'ms';
+}
+
+
+
+function main() {
+  const resultJsNode = document.getElementById('result-js');
+  const resultWasmNode = document.getElementById('result-wasm');
+
+  resultJsNode.textContent = getDuration(fibJs);
+  resultWasmNode.textContent = getDuration(fibC);
+}
+
+initFibC().then(main);
